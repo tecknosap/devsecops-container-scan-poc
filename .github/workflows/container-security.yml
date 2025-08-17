@@ -44,9 +44,9 @@ jobs:
         working-directory: ./terraform
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan -var-file="subscription.tfvars"
+        run: terraform plan -out=tfplan -var-file="terraform.tfvars"
         working-directory: ./terraform
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan -var-file="subscription.tfvars"
+        run: terraform apply -auto-approve tfplan -var-file="terraform.tfvars"
         working-directory: ./terraform
