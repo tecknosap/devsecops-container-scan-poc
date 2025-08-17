@@ -16,6 +16,6 @@ variable "location" {
 variable "subscription_id" {
 
     type = string
-    default = "6412cc8a-685f-44b5-bdf8-456a7b8d1f65"
+    #default = "6412cc8a-685f-44b5-bdf8-456a7b8d1f65"
   
 }
