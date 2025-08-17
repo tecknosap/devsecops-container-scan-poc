@@ -6,14 +6,9 @@ terraform {
     }
   }
 }
-
 provider "azurerm" {
-  # Configuration options
-  features {
-    
-  }
-
-    subscription_id = var.subscription_id
+  features {}
+  use_oidc = true
 }
 
 resource "azurerm_resource_group" "rg1" {
