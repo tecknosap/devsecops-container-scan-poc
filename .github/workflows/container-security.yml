@@ -48,5 +48,5 @@ jobs:
         working-directory: ./terraform
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var "subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" tfplan
+        run: terraform apply -auto-approve tfplan
         working-directory: ./terraform
