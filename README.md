@@ -1,41 +1,134 @@
-# Project 2: Scalable AKS Infrastructure with Terraform Modules
+# 📦 Project 2: DevSecOps Container Scan Pipeline (POC)
 
-## Overview
+## 🧭 Overview
+This Proof of Concept (POC) demonstrates a **secure CI/CD pipeline** that enforces vulnerability scanning and policy validation before container images are published to Azure Container Registry (ACR).  
 
-This project mirrors infrastructure provisioning at scale within enterprise environments, using Terraform modules to deliver repeatable, secure AKS clusters across multiple environments.
+The pipeline integrates **Trivy**, **Checkov**, and **TFLint** into **GitHub Actions**, using **OIDC-based authentication** to Azure (no secrets).  
 
-## Business Problem Solved
+> Only safe, compliant images are allowed to reach ACR. Unsafe artifacts are blocked automatically, with evidence captured in GitHub Security and pipeline artifacts.
 
-Manual, inconsistent cluster deployments lead to configuration drift and security vulnerabilities. Enterprises demand modular, version-controlled infrastructure as code with state consistency.
+---
 
-## What You Will Build
+## 🚀 Objectives
+* Enforce **security gates** for container and IaC validation.
+* Implement **secretless authentication** (OIDC → Azure).
+* Capture **evidence artifacts** (SBOM, SARIF, logs).
+* Provide a minimal, reproducible POC flow.
 
-- Modular Terraform code for VNet, AKS cluster, and supporting services.
-- Remote backend for Terraform state with locking and versioning.
-- Private AKS cluster with enforced network policies and NSGs.
-- Integration with Azure Policy for compliance baseline enforcement.
+---
 
-## Enterprise Impact
+## 🛠️ Toolchain
+* **CI/CD:** GitHub Actions
+* **Container Security:** Trivy
+* **IaC Security:** Checkov
+* **IaC Linting:** TFLint
+* **Registry:** Azure Container Registry (ACR)
+* **Infrastructure as Code:** Terraform (init/validate/plan only)
 
-- Guarantees consistent infrastructure deployments.
-- Simplifies multi-environment scaling and maintenance.
-- Enforces security and compliance through automation.
+---
 
-## Step-by-Step
+## 📝 POC Implementation Steps
+1. **Repository & Pipeline Setup**
+   * Configure GitHub Actions workflow
+   * Enable OIDC federation with Azure
+2. **Azure Resources**
+   * Deploy Azure Container Registry (ACR)
+   * Disable Admin user (OIDC only)
+3. **Container Pipeline**
+   * Build container image
+   * Scan with Trivy (filesystem + image)
+   * Generate SBOM and SARIF artifacts
+4. **Terraform Validation**
+   * Run `terraform init/validate/plan`
+   * Run TFLint and Checkov
+5. **Security Gates**
+   * Block on HIGH/CRITICAL findings (Trivy, Checkov)
+   * Block on TFLint errors
+6. **Artifact Handling**
+   * Upload SBOM and SARIF to GitHub Security tab
+   * Retain logs and artifacts for ≥14 days
+7. **Image Publish**
+   * Authenticate via OIDC (no secrets)
+   * Push only compliant images to ACR
 
-1. Develop reusable Terraform modules following best practices.
-2. Configure Terraform remote backend (e.g., Azure Storage Account).
-3. Apply private networking and security configurations.
-4. Execute Terraform plan and apply in dev, staging, and production.
-5. Use Checkov to scan IaC for misconfigurations before deploy.
+---
 
-## Prerequisites
+## 🔐 Security Gates
+* **Trivy:** Block on CRITICAL/HIGH findings
+* **Checkov:** Block on HIGH/CRITICAL for Terraform
+* **TFLint:** Block on lint errors
+* **Branch protection:** PR required, status checks required
+* **Auth:** OIDC → Azure only, no static secrets
 
-- Azure subscription
-- Terraform and Azure CLI installed
+---
 
-## References
+## 📊 Evidence & Deliverables
+* Pipeline run (failing → passing) screenshots
+* SARIF alerts in GitHub Security tab
+* SBOM artifact in workflow artifacts
+* ACR repository showing clean image digest
+* Logs & artifacts retained for ≥14 days
 
-- [Terraform Azure Provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)
-- [Terraform State Management](https://www.terraform.io/language/state/remote)
-- [Checkov IaC Security](https://www.checkov.io/)
+---
+
+## 📈 Flow Diagram
+```mermaid
+flowchart TD
+    A[Code Push / PR] --> B[GitHub Actions Workflow]
+    B --> C[Build Container Image]
+    C --> D[Trivy Scan (FS + Image)]
+    B --> E[Terraform Validate + TFLint + Checkov]
+    D -->|Pass| F[OIDC Login to Azure]
+    E -->|Pass| F
+    F --> G[Push to ACR]
+    D -->|Fail| H[Pipeline Blocked]
+    E -->|Fail| H
+    G --> I[Evidence: SBOM + SARIF + Logs]
+````
+
+---
+
+## ✅ Acceptance Checklist
+
+| Step                         | Status |
+| ---------------------------- | ------ |
+| Repo & Workflow Setup        | ✅      |
+| OIDC Federation              | ✅      |
+| Container Image Build        | ✅      |
+| Trivy Scan                   | ✅      |
+| Terraform Init/Validate/Plan | ✅      |
+| TFLint & Checkov             | ✅      |
+| Security Gates Passed        | ✅      |
+| SBOM & SARIF Uploaded        | ✅      |
+| Image Pushed to ACR          | ✅      |
+
+---
+
+## 🧠 Lessons & Next Steps
+
+* Security gates can be embedded early in the pipeline with minimal friction.
+* Future Enhancements:
+
+  * Image signing & attestation (Cosign + Key Vault)
+  * Terraform remote state with immutability
+  * AKS deployment with admission policies
+  * Azure Policy enforcement at subscription level
+
+---
+
+## 📅 POC Timeline
+
+* **Day 1:** Repo setup, OIDC federation, ACR deploy
+* **Day 2:** Configure scans + fail thresholds, SARIF & SBOM
+* **Day 3:** Run tests (fail → pass), capture evidence, finalize README
+
+---
+
+## 📊 Strategic Impact
+
+* Demonstrates **DevSecOps integration** in CI/CD
+* Enforces **cloud-native security** at build-time
+* Implements **secure, secretless Azure integration**
+* Showcases **architect thinking** in pipeline design
+
+```
