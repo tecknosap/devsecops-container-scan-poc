@@ -6,11 +6,11 @@ on:
       - main
 
 permissions:
-  id-token: write  # required for OIDC
-  contents: read   # required for checkout
+  id-token: write  # Required for OIDC
+  contents: read   # Required for checkout
 
 jobs:
-  azure-login:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,8 +23,30 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          allow-no-subscriptions: true  # ✅ This must be inside 'with'
 
       - name: Verify Azure Login
         run: |
           az account show
           az group list --output table
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6.6
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: .
+
+      - name: Terraform Validate
+        run: terraform validate
+        working-directory: .
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+        working-directory: .
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
+        working-directory: .
