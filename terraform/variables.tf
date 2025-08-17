@@ -2,7 +2,7 @@ variable "resource_group" {
   
   description = "main resource group"
   type = string
-  default = "gocloudops-rg1"
+  default = "gocloudops-rg3"
 }
 
 
