@@ -17,4 +17,3 @@ variable "subscription_id" {
     description = "place holder for our subscription"
     type = string  
 }
-#added new files
