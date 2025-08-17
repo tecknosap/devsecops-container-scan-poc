@@ -72,19 +72,6 @@ The pipeline integrates **Trivy**, **Checkov**, and **TFLint** into **GitHub Act
 ---
 
 ## 📈 Flow Diagram
-```mermaid
-flowchart TD
-    A[Code Push / PR] --> B[GitHub Actions Workflow]
-    B --> C[Build Container Image]
-    C --> D[Trivy Scan (FS + Image)]
-    B --> E[Terraform Validate + TFLint + Checkov]
-    D -->|Pass| F[OIDC Login to Azure]
-    E -->|Pass| F
-    F --> G[Push to ACR]
-    D -->|Fail| H[Pipeline Blocked]
-    E -->|Fail| H
-    G --> I[Evidence: SBOM + SARIF + Logs]
-````
 
 ---
 
