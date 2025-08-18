@@ -17,3 +17,7 @@ variable "subscription_id" {
     description = "place holder for our subscription"
     type = string  ######
 }
+
+
+variable "client_id" {}
+variable "tenant_id" {}
