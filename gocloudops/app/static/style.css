@@ -1,0 +1,130 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Global */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1abdf4, #0077b6);
+    color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    background: #1abdf4;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+}
+
+/* Logo */
+header .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* Nav Container */
+header nav {
+    flex: 1;                   /* take remaining space */
+    display: flex;
+    justify-content: center;   /* center the nav links */
+    gap: 20px;                 /* spacing between links */
+}
+
+/* Nav Links */
+header nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.1s;
+}
+
+header nav a:hover {
+    opacity: 0.8;
+}
+
+/* Hero Section */
+.hero {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 20px;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.hero h1 span {
+    color: #ffdd57;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+/* Countdown */
+.countdown {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.countdown div {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    width: 70px;
+}
+
+.countdown div span {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.countdown div label {
+    font-size: 0.8rem;
+    color: #ddd;
+}
+
+/* Notify Button */
+.notify-btn {
+    padding: 10px 20px;
+    width: auto;
+    max-width: 150px;
+    border: none;
+    border-radius: 8px;
+    background: #ffdd57;
+    color: #333;
+    font-size: 1rem;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto 0;
+    text-align: center;
+    transition: 0.3s;
+}
+.notify-btn:hover {
+    background: #ffc107;
+}
+
+/* Footer */
+footer {
+    background: #1abdf4;
+    padding: 15px;
+    font-size: 0.9rem;
+}
