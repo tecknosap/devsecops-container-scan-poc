@@ -15,8 +15,8 @@ resource "azurerm_resource_group" "rgs" {
 # ===============================
 resource "azurerm_container_registry" "acr" {
   name                = "tecknoacr"
-  location            = azurerm_resource_group.rgs.name
-  resource_group_name = azurerm_resource_group.rgs.location
+  location            = azurerm_resource_group.rgs.location
+  resource_group_name = azurerm_resource_group.rgs.name
   sku                 = "Basic"
   admin_enabled       = false
 }
