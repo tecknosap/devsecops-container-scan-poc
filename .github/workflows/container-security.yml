@@ -39,9 +39,9 @@ jobs:
         run: terraform init -input=false
         working-directory: ./terraform
 
-      - name: Force Unlock Stale Terraform Lock (if any)
-        run: terraform force-unlock -force  a50aa418-c53a-df7d-975d-2109a7875f6f
-        working-directory: ./terraform
+      # - name: Force Unlock Stale Terraform Lock (if any)
+      #   run: terraform force-unlock -force  a50aa418-c53a-df7d-975d-2109a7875f6f
+      #   working-directory: ./terraform
 
       - name: Terraform Validate
         run: terraform validate 
