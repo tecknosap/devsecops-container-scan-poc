@@ -49,7 +49,7 @@ jobs:
           az storage blob delete \
             --container-name tfstate \
             --name devsecops-poc2.tfstate.lock \
-            --account-name <your-storage-account-name>
+            --account-name your-storage-account-name
         continue-on-error: true
 
       - name: Terraform Plan
