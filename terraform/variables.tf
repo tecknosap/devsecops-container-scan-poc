@@ -21,6 +21,7 @@ variable "subscription_id" {
 variable "storage_account_name" {
   description = "storage name account"
   type = string
+  default     = "gocloudopst1234chl"
   
 }
 
