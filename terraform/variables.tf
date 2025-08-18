@@ -30,6 +30,6 @@ variable "storage_account_name" {
 variable "container_name" {
   description = "Blob container name for Terraform state"
   type        = string
-  default     = "tfstate"
+  default     = "blob-file"
 }
 
