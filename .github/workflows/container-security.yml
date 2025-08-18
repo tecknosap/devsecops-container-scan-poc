@@ -40,7 +40,8 @@ jobs:
         working-directory: ./terraform
 
       - name: Force Unlock Stale Terraform Lock (if any)
-        run: terraform force-unlock -force af5f0783-b3ba-88f5-b263-137078a876a1 ./terraform
+        run: terraform force-unlock -force af5f0783-b3ba-88f5-b263-137078a876a1
+        working-directory: ./terraform
 
       - name: Terraform Validate
         run: terraform validate
