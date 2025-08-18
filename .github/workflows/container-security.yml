@@ -1,4 +1,4 @@
-name: Azure OIDC Login
+name: Azure OIDC Terraform Deploy
 
 on:
   push:
@@ -37,20 +37,17 @@ jobs:
           terraform_version: 1.6.6
 
       - name: Terraform Init
-        run: terraform init
+        run: |
+          terraform init \
+            -backend-config="storage_account_name=${{ secrets.TFSTATE_STORAGE_ACCOUNT }}" \
+            -backend-config="container_name=tfstate" \
+            -backend-config="key=devsecops-poc2.tfstate" \
+            -backend-config="access_key=${{ secrets.TFSTATE_STORAGE_KEY }}"
         working-directory: ./terraform
 
       - name: Terraform Validate
         run: terraform validate
         working-directory: ./terraform
-
-      - name: Cleanup stale Terraform lock
-        run: |
-          az storage blob delete \
-            --container-name tfstate \
-            --name devsecops-poc2.tfstate.lock \
-            --account-name your-storage-account-name
-        continue-on-error: true
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"
