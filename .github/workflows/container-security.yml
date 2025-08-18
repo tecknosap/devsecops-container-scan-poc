@@ -37,12 +37,7 @@ jobs:
           terraform_version: 1.6.6
 
       - name: Terraform Init
-        run: |
-          terraform init \
-            -backend-config="storage_account_name=${{ secrets.TFSTATE_STORAGE_ACCOUNT }}" \
-            -backend-config="container_name=tfstate" \
-            -backend-config="key=devsecops-poc2.tfstate" \
-            -backend-config="access_key=${{ secrets.TFSTATE_STORAGE_KEY }}"
+        run: terraform init
         working-directory: ./terraform
 
       - name: Terraform Validate
