@@ -4,6 +4,6 @@ terraform {
     storage_account_name  = "gocloudopstfstate"
     container_name        = "tfstate"
     key                   = "devsecops-poc2.tfstate"
-    arm_use_oidc         = true 
+    #arm_use_oidc         = true 
   }
 }
