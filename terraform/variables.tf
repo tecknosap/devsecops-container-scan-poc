@@ -18,18 +18,9 @@ variable "subscription_id" {
     type = string  ######
 }
 
-variable "storage_account_name" {
-  description = "storage name account"
-  type = string
-  default     = "gocloudopst1234chl"
-  
-}
 
 
 
-variable "container_name" {
-  description = "Blob container name for Terraform state"
-  type        = string
-  default     = "blob-file"
-}
+
+
 
