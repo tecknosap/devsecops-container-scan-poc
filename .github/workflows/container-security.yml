@@ -18,6 +18,9 @@ jobs:
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       ARM_USE_OIDC: true
+      TF_BACKEND_CONTAINER: tfstate
+      TF_BACKEND_KEY: devsecops-poc2.tfstate
+      TF_BACKEND_STORAGE: gocloudopstfstate
 
     steps:
       - name: Checkout code
@@ -36,8 +39,28 @@ jobs:
         with:
           terraform_version: 1.6.6
 
+      - name: Check for Terraform Lock and Unlock if Needed
+        run: |
+          LOCK_BLOB=$(az storage blob list \
+            --account-name $TF_BACKEND_STORAGE \
+            --container-name $TF_BACKEND_CONTAINER \
+            --query "[?name=='${TF_BACKEND_KEY}.lock'].name" -o tsv)
+          if [ -n "$LOCK_BLOB" ]; then
+            echo "Stale lock found: $LOCK_BLOB"
+            LOCK_ID=$(az storage blob download \
+              --account-name $TF_BACKEND_STORAGE \
+              --container-name $TF_BACKEND_CONTAINER \
+              --name "$LOCK_BLOB" \
+              --file lock.json --output none && jq -r '.ID' lock.json)
+            echo "Force unlocking lock ID: $LOCK_ID"
+            terraform force-unlock -force $LOCK_ID ./terraform
+          else
+            echo "No stale lock found"
+          fi
+        shell: bash
+
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -input=false
         working-directory: ./terraform
 
       - name: Terraform Validate
