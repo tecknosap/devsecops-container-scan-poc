@@ -1,0 +1,33 @@
+name: Terraform Lint & Security Scan
+
+on:
+  push:
+    paths:
+      - 'terraform/**'
+    branches:
+      - main
+  pull_request:
+    paths:
+      - 'terraform/**'
+
+jobs:
+  lint-and-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install TFLint
+        run: |
+          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+          tflint --version
+
+      - name: Run TFLint
+        run: tflint --chdir=./terraform
+
+      - name: Install Checkov
+        run: pip install checkov
+
+      - name: Run Checkov
+        run: checkov -d ./terraform --quiet --compact
