@@ -35,6 +35,23 @@ jobs:
         with:
           terraform_version: 1.6.6
 
+      # 🔍 Static Analysis: TFLint
+      - name: Install TFLint
+        run: |
+          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+          tflint --version
+
+      - name: Run TFLint
+        run: tflint --chdir=./terraform
+
+      # 🛡️ Security Scan: Checkov
+      - name: Install Checkov
+        run: pip install checkov
+
+      - name: Run Checkov
+        run: checkov -d ./terraform --quiet --compact
+
+      # 🚀 Terraform Execution
       - name: Terraform Init
         run: terraform init -input=false
         working-directory: ./terraform
@@ -44,7 +61,7 @@ jobs:
       #   working-directory: ./terraform
 
       - name: Terraform Validate
-        run: terraform validate 
+        run: terraform validate
         working-directory: ./terraform
 
       - name: Terraform Plan
@@ -54,5 +71,3 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
         working-directory: ./terraform
-
-        # test
