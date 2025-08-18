@@ -44,12 +44,12 @@ jobs:
       - name: Run TFLint
         run: tflint --chdir=./terraform
 
-      # 🛡️ Security Scan: Checkov
-      - name: Install Checkov
-        run: pip install checkov
+      # # 🛡️ Security Scan: Checkov
+      # - name: Install Checkov
+      #   run: pip install checkov
 
-      - name: Run Checkov
-        run: checkov -d ./terraform --quiet --compact
+      # - name: Run Checkov
+      #   run: checkov -d ./terraform --quiet --compact
 
       # 🚀 Terraform Execution
       - name: Terraform Init

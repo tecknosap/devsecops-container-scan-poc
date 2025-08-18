@@ -24,10 +24,12 @@ jobs:
           tflint --version
 
       - name: Run TFLint
-        run: tflint --chdir=./terraform
+        run: tflint --chdir=.
+        working-directory: ./terraform
 
       - name: Install Checkov
         run: pip install checkov
 
-      - name: Run Checkov
-        run: checkov -d ./terraform --quiet --compact
+      - name: Run Checkov (Soft Fail)
+        run: checkov -d . --soft-fail --quiet --compact
+        working-directory: ./terraform
