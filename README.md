@@ -148,4 +148,4 @@ Once configured:
 
 ## 📄 Licence
 
-This project is licensed under the MIT Licence. You are free to use, modify, and distribute it in accordance with the licence terms.
+This project is licensed under the MIT Licence. You are free to use, modify, and distribute it in accordance with the licence terms.#
